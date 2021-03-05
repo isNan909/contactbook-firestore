@@ -27,14 +27,14 @@ function ContactAddForm() {
     ref
       .doc(contact.id)
       .set(contact)
-      // .then(() => {
-      //   setContact({
-      //     Name: '',
-      //     Cellphone: '',
-      //     Homephone: '',
-      //     Relation: '',
-      //   });
-      // })
+      .then(() => {
+        setContact({
+          Name: '',
+          Cellphone: '',
+          Homephone: '',
+          Relation: '',
+        });
+      })
       .catch((err) => {
         console.error(err);
       });
@@ -72,6 +72,7 @@ function ContactAddForm() {
             </label>
             <input
               type="name"
+              value={contact.Name}
               onChange={(e) => handleOnChange('Name', e.target.value)}
               className="form-control"
               id="NameInput"
@@ -83,6 +84,7 @@ function ContactAddForm() {
             </label>
             <input
               type="number"
+              value={contact.Cellphone}
               onChange={(e) => handleOnChange('Cellphone', e.target.value)}
               className="form-control"
               id="phoneInput"
@@ -94,6 +96,7 @@ function ContactAddForm() {
             </label>
             <input
               type="number"
+              value={contact.Homephone}
               onChange={(e) => handleOnChange('Homephone', e.target.value)}
               className="form-control"
               id="phoneHome"
@@ -101,6 +104,7 @@ function ContactAddForm() {
           </div>
           <div className="mb-3 mt-4">
             <select
+              value={contact.Relation}
               onChange={(e) => handleOnChange('Relation', e.target.value)}
               className="form-select"
               aria-label="Default select example"
