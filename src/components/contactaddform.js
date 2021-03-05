@@ -27,15 +27,14 @@ function ContactAddForm() {
     ref
       .doc(contact.id)
       .set(contact)
-      .then(() => { 
-        setContact({
-          Name: '',
-          Cellphone: '',
-          Homephone: '',
-          Relation: ''
-        });
-      }
-      )
+      // .then(() => {
+      //   setContact({
+      //     Name: '',
+      //     Cellphone: '',
+      //     Homephone: '',
+      //     Relation: '',
+      //   });
+      // })
       .catch((err) => {
         console.error(err);
       });
