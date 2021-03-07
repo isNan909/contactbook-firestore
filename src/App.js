@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import ContactList from './pages/contactlist';
+import ContactList from './components/contactlist';
 import Contactaddform from './components/contactaddform';
+import Contacteditform from './components/contacteditform';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
           <Switch>
             <Route path="/" component={ContactList} exact />
             <Route path="/addcontact" component={Contactaddform} exact />
+            <Route path="/editcontact/:id" component={Contacteditform} />
           </Switch>
         </BrowserRouter>
       </div>

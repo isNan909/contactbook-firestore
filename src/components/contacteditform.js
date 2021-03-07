@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import firebase from '../utils/config';
-import { v4 as uuidv4 } from 'uuid';
 
 import '../styles/addcontact.css';
 
-function ContactAddForm() {
+function ContactAddForm(route) {
+  const id = route.match.params.id;
+  const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState({
-    id: uuidv4(),
+    id: id,
     Name: '',
     Cellphone: '',
     Homephone: '',
@@ -23,6 +24,7 @@ function ContactAddForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log(contact);
     ref
       .doc(contact.id)
@@ -34,11 +36,32 @@ function ContactAddForm() {
           Homephone: '',
           Relation: '',
         });
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
       });
   };
+
+  const getContactList = (id) => {
+    console.log('get api call for' + id);
+
+    ref
+      .doc(id)
+      .get()
+      .then(function (doc) {
+        const d = doc.data();
+        setContact(d);
+      })
+      .catch(function (error) {
+        console.log('Error getting document:', error);
+      });
+  };
+
+  useEffect(() => {
+    getContactList(id);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
@@ -117,7 +140,16 @@ function ContactAddForm() {
             </select>
           </div>
           <button type="submit" className="btn btn-primary">
-            Submit
+            {loading ? (
+              <>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              </>
+            ) : null}
+            {!loading ? <>Submit</> : null}
           </button>
         </form>
       </div>

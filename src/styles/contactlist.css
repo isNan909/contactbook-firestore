@@ -1,0 +1,58 @@
+.listhead {
+  margin: 14vh 0px 60px 0px;
+}
+
+button.button-listhead {
+  background-color: #4a60e4;
+  margin-left: 20px;
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+}
+
+button.button-listhead > svg {
+  margin-right: 5px;
+}
+
+button.info__actions-edit {
+  color: #ab15e0;
+  padding: 10px 0px;
+  border: transparent;
+  background-color: transparent;
+}
+
+button.info__actions-delete {
+  color: #e03232;
+  padding: 10px 20px;
+  border: transparent;
+  background-color: transparent;
+}
+
+.info h6 {
+  font-weight: 500;
+  font-size: 25px;
+  margin-bottom: 30px;
+}
+
+.info_content {
+  flex-wrap: wrap;
+}
+
+.info_content > div {
+  flex-basis: 50%;
+}
+
+.info_content > div span {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  color: #777777;
+}
+
+.info_content > div span > svg {
+  margin-right: 5px;
+}
+.info_content > div p {
+  font-weight: bold;
+}
