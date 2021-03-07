@@ -56,3 +56,14 @@ button.info__actions-delete {
 .info_content > div p {
   font-weight: bold;
 }
+
+.emptylist {
+  padding: 60px 0px;
+  align-items: center;
+  border-color: #e2e2e2;
+  border-style: dashed;
+}
+
+.emptylist h6 {
+  color: #b1b1b1;
+}

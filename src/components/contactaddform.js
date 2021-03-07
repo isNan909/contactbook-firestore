@@ -14,6 +14,7 @@ function ContactAddForm() {
     Homephone: '',
     Relation: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const ref = firebase.firestore().collection('contactbook');
 
@@ -23,6 +24,7 @@ function ContactAddForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     console.log(contact);
     ref
       .doc(contact.id)
@@ -38,6 +40,7 @@ function ContactAddForm() {
       .catch((err) => {
         console.error(err);
       });
+    setLoading(false);
   };
 
   return (
@@ -117,7 +120,16 @@ function ContactAddForm() {
             </select>
           </div>
           <button type="submit" className="btn btn-primary">
-            Submit
+            {loading ? (
+              <>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              </>
+            ) : null}
+            {!loading ? <>Add my new contact</> : null}
           </button>
         </form>
       </div>
