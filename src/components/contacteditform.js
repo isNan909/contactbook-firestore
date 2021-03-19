@@ -3,17 +3,20 @@ import { Link } from 'react-router-dom';
 
 import firebase from '../utils/config';
 
-import '../styles/addcontact.css';
+import '../styles/editcontact.css';
 
-function ContactAddForm(route) {
+function ContactEditForm(route) {
   const id = route.match.params.id;
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(false);
   const [contact, setContact] = useState({
     id: id,
     Name: '',
     Cellphone: '',
     Homephone: '',
     Relation: '',
+    image: imageUrl,
+    imageName: '',
   });
 
   const ref = firebase.firestore().collection('contactbook');
@@ -22,11 +25,26 @@ function ContactAddForm(route) {
     setContact({ ...contact, [userKey]: value });
   };
 
+  const replaceImage = (e) => {
+    const storageRef = firebase.storage().ref('img/');
+    const fileRef = storageRef.child(e);
+    fileRef.delete();
+  };
+
+  const handleFileChange = async (e) => {
+    const contactImage = e.target.files[0];
+    const storageRef = firebase.storage().ref('img/');
+    const fileRef = storageRef.child(contactImage.name);
+    await fileRef.put(contactImage);
+    const imageUrl = await fileRef.getDownloadURL();
+    setImageUrl(imageUrl);
+    setContact({ ...contact, image: imageUrl, imageName: contactImage.name });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(contact);
-    ref
+    await ref
       .doc(contact.id)
       .set(contact)
       .then(() => {
@@ -44,8 +62,6 @@ function ContactAddForm(route) {
   };
 
   const getContactList = (id) => {
-    console.log('get api call for' + id);
-
     ref
       .doc(id)
       .get()
@@ -87,7 +103,7 @@ function ContactAddForm(route) {
 
         <h4>Please add your new contact</h4>
       </div>
-      <div className="contactadd">
+      <div className="contactedit">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="nameInput" className="form-label">
@@ -139,11 +155,44 @@ function ContactAddForm(route) {
               <option value="others">Others</option>
             </select>
           </div>
+          {imageUrl}
+          {contact.imageName = null ? (
+            <>
+              <div>
+                <img
+                  className="contactImage"
+                  src={contact.image}
+                  alt="friends"
+                />
+                <button
+                  type="button"
+                  className="mb-3 mt-4 btn btn-secondary btn-sm"
+                  onClick={() => replaceImage(contact.imageName)}
+                >
+                  Replace Image
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mb-3 mt-3">
+                <label htmlFor="formFile" className="form-label">
+                  Upload Image
+                </label>
+                <input
+                  className="form-control"
+                  type="file"
+                  id="formFile"
+                  onChange={handleFileChange}
+                />
+              </div>
+            </>
+          )}
           <button type="submit" className="btn btn-primary">
             {loading ? (
               <>
                 <span
-                  class="spinner-border spinner-border-sm"
+                  className="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true"
                 ></span>
@@ -157,4 +206,4 @@ function ContactAddForm(route) {
   );
 }
 
-export default ContactAddForm;
+export default ContactEditForm;

@@ -8,7 +8,6 @@ import '../styles/contactlist.css';
 function Contactlist() {
   const [contact, setContact] = useState([]);
   let history = useHistory();
-
   const ref = firebase.firestore().collection('contactbook');
 
   const getContactList = () => {
@@ -42,7 +41,7 @@ function Contactlist() {
   };
 
   const editContact = (id) => {
-    history.push('/editcontact/' + id + '.jpeg');
+    history.push('/editcontact/' + id);
   };
 
   useEffect(() => {

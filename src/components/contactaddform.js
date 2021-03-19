@@ -8,6 +8,7 @@ import '../styles/addcontact.css';
 
 function ContactAddForm() {
   const [imageUrl, setImageUrl] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState({
     id: uuidv4(),
     Name: '',
@@ -17,10 +18,7 @@ function ContactAddForm() {
     Image: imageUrl,
     contactImage: '',
   });
-  const [loading, setLoading] = useState(false);
-
   const ref = firebase.firestore().collection('contactbook');
-
   const handleOnChange = (userKey, value) => {
     setContact({ ...contact, [userKey]: value });
   };

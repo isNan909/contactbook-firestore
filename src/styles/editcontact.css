@@ -1,0 +1,19 @@
+.goback {
+  margin-top: 50px;
+  margin-bottom: 35px;
+}
+.contactedit {
+  margin-top: 50px;
+  background-color: #fff;
+  padding: 50px;
+  max-width: 900px;
+  margin-right: auto;
+}
+
+.goback h4 {
+  font-size: 30px;
+  color: #67697b;
+}
+.goback svg {
+  margin-right: 10px;
+}
