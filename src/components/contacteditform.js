@@ -68,6 +68,7 @@ function ContactEditForm(route) {
       .then(function (doc) {
         const d = doc.data();
         setContact(d);
+        console.log(contact);
       })
       .catch(function (error) {
         console.log('Error getting document:', error);
@@ -155,39 +156,50 @@ function ContactEditForm(route) {
               <option value="others">Others</option>
             </select>
           </div>
-          {imageUrl}
-          {contact.imageName = null ? (
-            <>
-              <div>
-                <img
-                  className="contactImage"
-                  src={contact.image}
-                  alt="friends"
-                />
-                <button
-                  type="button"
-                  className="mb-3 mt-4 btn btn-secondary btn-sm"
-                  onClick={() => replaceImage(contact.imageName)}
-                >
-                  Replace Image
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="mb-3 mt-3">
-                <label htmlFor="formFile" className="form-label">
-                  Upload Image
-                </label>
-                <input
-                  className="form-control"
-                  type="file"
-                  id="formFile"
-                  onChange={handleFileChange}
-                />
-              </div>
-            </>
-          )}
+          <div>
+            <img className="contactImage" src={contact.image} alt="friends" />
+            <button
+              type="button"
+              className="mb-3 mt-4 btn btn-secondary btn-sm"
+              onClick={() => replaceImage(contact.imageName)}
+            >
+              Replace Image
+            </button>
+          </div>
+          {/* {
+            (contact.imageName = '' ? (
+              <>
+                <div>
+                  <img
+                    className="contactImage"
+                    src={contact.image}
+                    alt="friends"
+                  />
+                  <button
+                    type="button"
+                    className="mb-3 mt-4 btn btn-secondary btn-sm"
+                    onClick={() => replaceImage(contact.imageName)}
+                  >
+                    Replace Image
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mb-3 mt-3">
+                  <label htmlFor="formFile" className="form-label">
+                    Upload Image
+                  </label>
+                  <input
+                    className="form-control"
+                    type="file"
+                    id="formFile"
+                    onChange={handleFileChange}
+                  />
+                </div>
+              </>
+            ))
+          } */}
           <button type="submit" className="btn btn-primary">
             {loading ? (
               <>

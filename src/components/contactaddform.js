@@ -16,7 +16,7 @@ function ContactAddForm() {
     Homephone: '',
     Relation: '',
     Image: imageUrl,
-    contactImage: '',
+    imageName: '',
   });
   const ref = firebase.firestore().collection('contactbook');
   const handleOnChange = (userKey, value) => {
