@@ -7,12 +7,14 @@ import { v4 as uuidv4 } from 'uuid';
 import '../styles/addcontact.css';
 
 function ContactAddForm() {
+  const [imageUrl, setImageUrl] = useState(false);
   const [contact, setContact] = useState({
     id: uuidv4(),
     Name: '',
     Cellphone: '',
     Homephone: '',
     Relation: '',
+    image: imageUrl,
   });
   const [loading, setLoading] = useState(false);
 
@@ -22,21 +24,21 @@ function ContactAddForm() {
     setContact({ ...contact, [userKey]: value });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
+  const handleFileChange = async (e) => {
+    const contactImage = e.target.files[0];
     const storageRef = firebase.storage().ref();
-    const fileRef = storageRef.child(file.name);
-    fileRef.put(file).then(() => {
-      console.log('file uploaded', file.name);
-    });
+    const fileRef = storageRef.child(contactImage.name);
+    await fileRef.put(contactImage);
+    const imageUrl = await fileRef.getDownloadURL();
+    setImageUrl(imageUrl);
+    console.log(contact);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     console.log(contact);
-    ref
+    await ref
       .doc(contact.id)
       .set(contact)
       .then(() => {
@@ -103,6 +105,7 @@ function ContactAddForm() {
               id="phoneInput"
             />
           </div>
+          {imageUrl}
           <div className="mb-3">
             <label htmlFor="numberhome" className="form-label">
               Home phone
