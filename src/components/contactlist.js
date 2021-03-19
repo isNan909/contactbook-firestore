@@ -19,10 +19,10 @@ function Contactlist() {
       });
       setContact(list);
     });
+    console.log(contact);
   };
 
   const deleteContact = (id) => {
-    console.log(id);
     ref
       .doc(id)
       .delete()
@@ -92,7 +92,10 @@ function Contactlist() {
             {contact.map((c) => (
               <div className="col-md-4" key={c.id}>
                 <div className="shadow p-3 mb-5 bg-body rounded">
-                  <h6>{c.Name}</h6>
+                  <div>
+                    <img className="contactImage" src={c.image} alt="friends"/>
+                    <h6>{c.Name}</h6>
+                  </div>
                   <div className="d-flex info_content">
                     <div className="d-flex flex-column">
                       <span>

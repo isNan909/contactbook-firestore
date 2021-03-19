@@ -14,7 +14,7 @@ function ContactAddForm() {
     Cellphone: '',
     Homephone: '',
     Relation: '',
-    image: imageUrl,
+    Image: imageUrl,
   });
   const [loading, setLoading] = useState(false);
 
@@ -31,13 +31,12 @@ function ContactAddForm() {
     await fileRef.put(contactImage);
     const imageUrl = await fileRef.getDownloadURL();
     setImageUrl(imageUrl);
-    console.log(contact);
+    setContact({ ...contact, image: imageUrl });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(contact);
     await ref
       .doc(contact.id)
       .set(contact)
@@ -47,6 +46,7 @@ function ContactAddForm() {
           Cellphone: '',
           Homephone: '',
           Relation: '',
+          Image: ''
         });
       })
       .catch((err) => {
@@ -57,6 +57,7 @@ function ContactAddForm() {
 
   return (
     <>
+      {imageUrl}
       <div className="d-flex goback flex-column">
         <div>
           <svg
@@ -105,7 +106,6 @@ function ContactAddForm() {
               id="phoneInput"
             />
           </div>
-          {imageUrl}
           <div className="mb-3">
             <label htmlFor="numberhome" className="form-label">
               Home phone

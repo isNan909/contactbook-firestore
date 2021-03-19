@@ -67,3 +67,8 @@ button.info__actions-delete {
 .emptylist h6 {
   color: #b1b1b1;
 }
+img.contactImage {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}
