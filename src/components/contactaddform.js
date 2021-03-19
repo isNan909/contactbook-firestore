@@ -15,6 +15,7 @@ function ContactAddForm() {
     Homephone: '',
     Relation: '',
     Image: imageUrl,
+    contactImage: '',
   });
   const [loading, setLoading] = useState(false);
 
@@ -26,12 +27,13 @@ function ContactAddForm() {
 
   const handleFileChange = async (e) => {
     const contactImage = e.target.files[0];
-    const storageRef = firebase.storage().ref();
+    const storageRef = firebase.storage().ref('img/');
     const fileRef = storageRef.child(contactImage.name);
     await fileRef.put(contactImage);
     const imageUrl = await fileRef.getDownloadURL();
     setImageUrl(imageUrl);
-    setContact({ ...contact, image: imageUrl });
+    setContact({ ...contact, image: imageUrl, imageName: contactImage.name });
+    console.log(contact);
   };
 
   const handleSubmit = async (e) => {
@@ -46,7 +48,7 @@ function ContactAddForm() {
           Cellphone: '',
           Homephone: '',
           Relation: '',
-          Image: ''
+          Image: '',
         });
       })
       .catch((err) => {

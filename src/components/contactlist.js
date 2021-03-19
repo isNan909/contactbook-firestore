@@ -19,20 +19,30 @@ function Contactlist() {
       });
       setContact(list);
     });
-    console.log(contact);
   };
 
-  const deleteContact = (id) => {
-    ref
-      .doc(id)
-      .delete()
-      .catch((err) => {
-        console.error(err);
+  const deleteContact = async (id) => {
+    try {
+      const deleteImageId = contact.filter(function (img) {
+        return img.id === id;
       });
+      const imageUrl = await deleteImageId[0].imageName;
+      const storageRef = firebase.storage().ref('img/');
+      const fileRef = storageRef.child(imageUrl);
+      await fileRef.delete();
+      ref
+        .doc(id)
+        .delete()
+        .catch((err) => {
+          console.error(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const editContact = (id) => {
-    history.push('/editcontact/' + id);
+    history.push('/editcontact/' + id + '.jpeg');
   };
 
   useEffect(() => {
@@ -93,7 +103,7 @@ function Contactlist() {
               <div className="col-md-4" key={c.id}>
                 <div className="shadow p-3 mb-5 bg-body rounded">
                   <div>
-                    <img className="contactImage" src={c.image} alt="friends"/>
+                    <img className="contactImage" src={c.image} alt="friends" />
                     <h6>{c.Name}</h6>
                   </div>
                   <div className="d-flex info_content">
