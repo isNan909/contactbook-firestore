@@ -22,6 +22,16 @@ function ContactAddForm() {
     setContact({ ...contact, [userKey]: value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child(file.name);
+    fileRef.put(file).then(() => {
+      console.log('file uploaded', file.name);
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -119,11 +129,22 @@ function ContactAddForm() {
               <option value="others">Others</option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary">
+          <div className="mb-3 mt-3">
+            <label htmlFor="formFile" className="form-label">
+              Upload Image
+            </label>
+            <input
+              className="form-control"
+              type="file"
+              id="formFile"
+              onChange={handleFileChange}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary mt-3">
             {loading ? (
               <>
                 <span
-                  class="spinner-border spinner-border-sm"
+                  className="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true"
                 ></span>
