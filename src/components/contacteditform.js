@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import firebase from '../utils/config';
 
@@ -8,7 +8,9 @@ import '../styles/editcontact.css';
 function ContactEditForm(route) {
   const id = route.match.params.id;
   const [loading, setLoading] = useState(false);
+  const [hasImage, setHasImage] = useState(true);
   const [imageUrl, setImageUrl] = useState(false);
+  let history = useHistory();
   const [contact, setContact] = useState({
     id: id,
     Name: '',
@@ -25,10 +27,12 @@ function ContactEditForm(route) {
     setContact({ ...contact, [userKey]: value });
   };
 
-  const replaceImage = (e) => {
+  const deleteImage = (e) => {
     const storageRef = firebase.storage().ref('img/');
     const fileRef = storageRef.child(e);
     fileRef.delete();
+    setContact({ ...contact, image: '', imageName: '' });
+    setHasImage(false);
   };
 
   const handleFileChange = async (e) => {
@@ -39,11 +43,14 @@ function ContactEditForm(route) {
     const imageUrl = await fileRef.getDownloadURL();
     setImageUrl(imageUrl);
     setContact({ ...contact, image: imageUrl, imageName: contactImage.name });
+    setHasImage(true);
+    console.log(contact);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setHasImage(true);
     await ref
       .doc(contact.id)
       .set(contact)
@@ -59,6 +66,7 @@ function ContactEditForm(route) {
       .catch((err) => {
         console.error(err);
       });
+    history.push('/');
   };
 
   const getContactList = (id) => {
@@ -156,50 +164,41 @@ function ContactEditForm(route) {
               <option value="others">Others</option>
             </select>
           </div>
-          <div>
-            <img className="contactImage" src={contact.image} alt="friends" />
-            <button
-              type="button"
-              className="mb-3 mt-4 btn btn-secondary btn-sm"
-              onClick={() => replaceImage(contact.imageName)}
-            >
-              Replace Image
-            </button>
-          </div>
-          {/* {
-            (contact.imageName = '' ? (
-              <>
-                <div>
-                  <img
-                    className="contactImage"
-                    src={contact.image}
-                    alt="friends"
-                  />
-                  <button
-                    type="button"
-                    className="mb-3 mt-4 btn btn-secondary btn-sm"
-                    onClick={() => replaceImage(contact.imageName)}
-                  >
-                    Replace Image
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="mb-3 mt-3">
-                  <label htmlFor="formFile" className="form-label">
-                    Upload Image
-                  </label>
-                  <input
-                    className="form-control"
-                    type="file"
-                    id="formFile"
-                    onChange={handleFileChange}
-                  />
-                </div>
-              </>
-            ))
-          } */}
+
+          {hasImage ? (
+            <>
+              {' '}
+              <div>
+                <img
+                  className="contactImage"
+                  src={contact.image}
+                  alt="friends"
+                />
+                <button
+                  type="button"
+                  className="mb-3 mt-4 btn btn-secondary btn-sm"
+                  onClick={() => deleteImage(contact.imageName)}
+                >
+                  Delete Image
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mb-3 mt-3">
+                <label htmlFor="formFile" className="form-label">
+                  Upload Image
+                </label>
+                <input
+                  className="form-control"
+                  type="file"
+                  id="formFile"
+                  onChange={handleFileChange}
+                />
+              </div>
+            </>
+          )}
+
           <button type="submit" className="btn btn-primary">
             {loading ? (
               <>

@@ -15,7 +15,7 @@ function ContactAddForm() {
     Cellphone: '',
     Homephone: '',
     Relation: '',
-    Image: imageUrl,
+    image: imageUrl,
     imageName: '',
   });
   const ref = firebase.firestore().collection('contactbook');
@@ -31,7 +31,7 @@ function ContactAddForm() {
     const imageUrl = await fileRef.getDownloadURL();
     setImageUrl(imageUrl);
     setContact({ ...contact, image: imageUrl, imageName: contactImage.name });
-    console.log(contact);
+    console.log(imageUrl);
   };
 
   const handleSubmit = async (e) => {
@@ -46,7 +46,7 @@ function ContactAddForm() {
           Cellphone: '',
           Homephone: '',
           Relation: '',
-          Image: '',
+          image: '',
         });
       })
       .catch((err) => {
@@ -57,7 +57,6 @@ function ContactAddForm() {
 
   return (
     <>
-      {imageUrl}
       <div className="d-flex goback flex-column">
         <div>
           <svg
